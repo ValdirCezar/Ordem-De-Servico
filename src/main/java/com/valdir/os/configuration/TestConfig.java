@@ -1,5 +1,7 @@
 package com.valdir.os.configuration;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,7 @@ public class TestConfig {
 	private DBService dbService;
 	
 	@Bean
-	public void instanciaDB() {
+	public void instanciaDB() throws ParseException {
 		dbService.instanciaDB();
 	}
 }

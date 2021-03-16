@@ -3,33 +3,45 @@ package com.valdir.os.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.valdir.os.domain.enuns.Prioridade;
+import com.valdir.os.domain.enuns.Status;
 
+@Entity
 public class OrdemDeServico implements Serializable {
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Date dataAbertura;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date dataFechamento;
-	private Prioridade prioridade;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Integer prioridade;
+	private String observacoes;
+	private Integer status;
 
 	public OrdemDeServico() {
 		super();
 	}
 
-	public OrdemDeServico(Integer id, Date dataAbertura, Date dataFechamento, Prioridade prioridade) {
+	public OrdemDeServico(Integer id, Date dataAbertura, Date dataFechamento, Prioridade prioridade, String observacoes,
+			Status status) {
 		super();
 		this.id = id;
 		this.dataAbertura = dataAbertura;
 		this.dataFechamento = dataFechamento;
-		this.prioridade = prioridade;
+		this.prioridade = prioridade.getCodigo();
+		this.observacoes = observacoes;
+		this.status = status.getCodigo();
 	}
 
 	public Integer getId() {
@@ -56,12 +68,28 @@ public class OrdemDeServico implements Serializable {
 		this.dataFechamento = dataFechamento;
 	}
 
-	public Prioridade getPrioridade() {
+	public Integer getPrioridade() {
 		return prioridade;
 	}
 
 	public void setPrioridade(Prioridade prioridade) {
-		this.prioridade = prioridade;
+		this.prioridade = prioridade.getCodigo();
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
+
+	public Status getStatus() {
+		return Status.toEnum(status);
+	}
+
+	public void setStatus(Status status) {
+		this.status = status.getCodigo();
 	}
 
 	@Override
