@@ -1,12 +1,15 @@
 package com.valdir.os.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Cliente implements Serializable {
@@ -16,12 +19,15 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
+
 	@Column(unique = true)
 	private String cpf;
-	
+
 	@Column(unique = true)
 	private String telefone;
+
+	@OneToMany(mappedBy = "tecnico")
+	private List<OrdemDeServico> osList = new ArrayList<>();
 
 	public Cliente() {
 		super();
@@ -65,6 +71,14 @@ public class Cliente implements Serializable {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<OrdemDeServico> getOsList() {
+		return osList;
+	}
+
+	public void setOsList(List<OrdemDeServico> osList) {
+		this.osList = osList;
 	}
 
 	@Override

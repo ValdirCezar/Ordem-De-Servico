@@ -22,10 +22,10 @@ public class DBService {
 
 	@Autowired
 	private TecnicoRepository tecnicoRepository;
-	
+
 	@Autowired
 	private ClienteRepository clienteRepository;
-	
+
 	@Autowired
 	private OrdemDeServicoRepository osRepository;
 
@@ -38,7 +38,10 @@ public class DBService {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		OrdemDeServico os1 = new OrdemDeServico(null, sdf.parse("25/09/2021"), null, Prioridade.BAIXA,
-				"Troca de placa mãe", Status.ABERTO);
+				"Troca de placa mãe", Status.ABERTO, t1, c1);
+
+		t1.getOsList().add(os1);
+		c1.getOsList().add(os1);
 
 		tecnicoRepository.saveAll(Arrays.asList(t1, t2));
 		clienteRepository.saveAll(Arrays.asList(c1));

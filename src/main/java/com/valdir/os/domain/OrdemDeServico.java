@@ -7,8 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.valdir.os.domain.enuns.Prioridade;
 import com.valdir.os.domain.enuns.Status;
 
@@ -29,12 +32,22 @@ public class OrdemDeServico implements Serializable {
 	private String observacoes;
 	private Integer status;
 
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "tecnico_id")
+	private Tecnico tecnico;
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
+	private Cliente cliente;
+
 	public OrdemDeServico() {
 		super();
 	}
 
 	public OrdemDeServico(Integer id, Date dataAbertura, Date dataFechamento, Prioridade prioridade, String observacoes,
-			Status status) {
+			Status status, Tecnico tecnico, Cliente cliente) {
 		super();
 		this.id = id;
 		this.dataAbertura = dataAbertura;
@@ -42,6 +55,8 @@ public class OrdemDeServico implements Serializable {
 		this.prioridade = prioridade.getCodigo();
 		this.observacoes = observacoes;
 		this.status = status.getCodigo();
+		this.tecnico = tecnico;
+		this.cliente = cliente;
 	}
 
 	public Integer getId() {
@@ -90,6 +105,22 @@ public class OrdemDeServico implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status.getCodigo();
+	}
+
+	public Tecnico getTecnico() {
+		return tecnico;
+	}
+
+	public void setTecnico(Tecnico tecnico) {
+		this.tecnico = tecnico;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	@Override
