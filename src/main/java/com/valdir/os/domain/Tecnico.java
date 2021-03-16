@@ -1,11 +1,19 @@
 package com.valdir.os.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.valdir.os.domain.enuns.Perfil;
 
 @Entity
 public class Tecnico implements Serializable {
@@ -18,8 +26,13 @@ public class Tecnico implements Serializable {
 	private String nome;
 	private String cpf;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+
 	public Tecnico() {
 		super();
+		addPerfil(Perfil.PADRAO);
 	}
 
 	public Tecnico(Integer id, String nome, String cpf) {
@@ -27,6 +40,7 @@ public class Tecnico implements Serializable {
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
+		addPerfil(Perfil.PADRAO);
 	}
 
 	public Integer getId() {
@@ -51,6 +65,14 @@ public class Tecnico implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	}
+
+	public void addPerfil(Perfil perfil) {
+		this.perfis.add(perfil.getCodigo());
 	}
 
 	@Override
