@@ -1,38 +1,35 @@
 package com.valdir.os.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
-public class Cliente implements Serializable {
+import com.valdir.os.domain.enuns.Prioridade;
+
+public class OrdemDeServico implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
-	
-	@Column(unique = true)
-	private String cpf;
-	
-	@Column(unique = true)
-	private String telefone;
+	private Date dataAbertura;
+	private Date dataFechamento;
+	private Prioridade prioridade;
 
-	public Cliente() {
+	public OrdemDeServico() {
 		super();
 	}
 
-	public Cliente(Integer id, String nome, String cpf, String telefone) {
+	public OrdemDeServico(Integer id, Date dataAbertura, Date dataFechamento, Prioridade prioridade) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.telefone = telefone;
+		this.dataAbertura = dataAbertura;
+		this.dataFechamento = dataFechamento;
+		this.prioridade = prioridade;
 	}
 
 	public Integer getId() {
@@ -43,28 +40,28 @@ public class Cliente implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Date getDataAbertura() {
+		return dataAbertura;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setDataAbertura(Date dataAbertura) {
+		this.dataAbertura = dataAbertura;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public Date getDataFechamento() {
+		return dataFechamento;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setDataFechamento(Date dataFechamento) {
+		this.dataFechamento = dataFechamento;
 	}
 
-	public String getTelefone() {
-		return telefone;
+	public Prioridade getPrioridade() {
+		return prioridade;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setPrioridade(Prioridade prioridade) {
+		this.prioridade = prioridade;
 	}
 
 	@Override
@@ -83,7 +80,7 @@ public class Cliente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		OrdemDeServico other = (OrdemDeServico) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
