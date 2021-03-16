@@ -1,23 +1,15 @@
 package com.valdir.os.domain;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.valdir.os.domain.enuns.Perfil;
-
 @Entity
-public class Tecnico implements Serializable {
+public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,22 +20,20 @@ public class Tecnico implements Serializable {
 	
 	@Column(unique = true)
 	private String cpf;
+	
+	@Column(unique = true)
+	private String telefone;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "PERFIS")
-	private Set<Integer> perfis = new HashSet<>();
-
-	public Tecnico() {
+	public Cliente() {
 		super();
-		addPerfil(Perfil.PADRAO);
 	}
 
-	public Tecnico(Integer id, String nome, String cpf) {
+	public Cliente(Integer id, String nome, String cpf, String telefone) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
-		addPerfil(Perfil.PADRAO);
+		this.telefone = telefone;
 	}
 
 	public Integer getId() {
@@ -70,12 +60,12 @@ public class Tecnico implements Serializable {
 		this.cpf = cpf;
 	}
 
-	public Set<Perfil> getPerfis() {
-		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+	public String getTelefone() {
+		return telefone;
 	}
 
-	public void addPerfil(Perfil perfil) {
-		this.perfis.add(perfil.getCodigo());
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 	@Override
@@ -94,7 +84,7 @@ public class Tecnico implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tecnico other = (Tecnico) obj;
+		Cliente other = (Cliente) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
