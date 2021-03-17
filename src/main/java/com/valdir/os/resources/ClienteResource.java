@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,49 +14,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.valdir.os.domain.dtos.TecnicoDTO;
-import com.valdir.os.services.TecnicoService;
+import com.valdir.os.domain.dtos.ClienteDTO;
+import com.valdir.os.services.ClienteService;
 
 @RestController
-@RequestMapping(value = "/tecnicos")
-public class TecnicoResource {
+@RequestMapping(value = "/clientes")
+public class ClienteResource {
 
 	@Autowired
-	private TecnicoService service;
- 
+	private ClienteService service;
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
-		return ResponseEntity.ok().body(new TecnicoDTO(service.findById(id)));
+	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(new ClienteDTO(service.findById(id)));
 	}
 
 	@GetMapping()
-	public ResponseEntity<List<TecnicoDTO>> findAll() {
-		List<TecnicoDTO> list = service.findAll().stream().map(x -> new TecnicoDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<ClienteDTO>> findAll() {
+		List<ClienteDTO> listDTO = service.findAll().stream().map(x -> new ClienteDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
-	
-	@PostMapping()
-	public ResponseEntity<List<TecnicoDTO>> create(@Valid @RequestBody TecnicoDTO obj) {
-		obj = service.create(obj);
+
+	@PostMapping
+	public ResponseEntity<ClienteDTO> create(@RequestBody ClienteDTO obj) {
+		obj = new ClienteDTO(service.create(obj));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
