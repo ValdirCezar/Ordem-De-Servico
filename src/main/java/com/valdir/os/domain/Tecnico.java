@@ -1,7 +1,9 @@
 package com.valdir.os.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.valdir.os.domain.enuns.Perfil;
 
@@ -32,6 +35,9 @@ public class Tecnico implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
+	
+	@OneToMany(mappedBy = "tecnico")
+	private List<OrdemDeServico> osList = new ArrayList<>();
 
 	public Tecnico() {
 		super();
@@ -76,6 +82,14 @@ public class Tecnico implements Serializable {
 
 	public void addPerfil(Perfil perfil) {
 		this.perfis.add(perfil.getCodigo());
+	}
+
+	public List<OrdemDeServico> getOsList() {
+		return osList;
+	}
+
+	public void setOsList(List<OrdemDeServico> osList) {
+		this.osList = osList;
 	}
 
 	@Override
