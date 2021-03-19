@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.valdir.os.domain.OrdemDeServico;
 import com.valdir.os.domain.Tecnico;
 import com.valdir.os.domain.enuns.Perfil;
@@ -22,6 +24,7 @@ public class TecnicoDTO implements Serializable {
 	private String nome;
 
 	@NotEmpty(message = "O campo CPF é mandatório")
+	@CPF
 	private String cpf;
 
 	private Set<Integer> perfis = new HashSet<>();

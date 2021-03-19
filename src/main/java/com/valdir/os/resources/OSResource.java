@@ -24,6 +24,7 @@ public class OSResource {
 	@Autowired
 	private OSService service;
 
+	;
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<OrdemDeServicoDTO> findById(@PathVariable Integer id) {
 		return ResponseEntity.ok().body(new OrdemDeServicoDTO(service.findById(id)));
