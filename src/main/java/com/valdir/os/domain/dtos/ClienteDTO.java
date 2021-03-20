@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.valdir.os.domain.Cliente;
 import com.valdir.os.domain.OrdemDeServico;
 
@@ -11,9 +15,17 @@ public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	
+	@NotEmpty(message = "O campo NOME é mandatório")
 	private String nome;
+	
+	@NotEmpty(message = "O campo CPF é mandatório")
+	@CPF
 	private String cpf;
+	
+	@NotEmpty(message = "O campo TELEFONE é mandatório")
 	private String telefone;
+	
 	private List<OrdemDeServico> osList = new ArrayList<>();
 
 	public ClienteDTO() {

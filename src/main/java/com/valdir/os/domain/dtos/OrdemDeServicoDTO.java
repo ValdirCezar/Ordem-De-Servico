@@ -1,7 +1,9 @@
 package com.valdir.os.domain.dtos;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.valdir.os.domain.OrdemDeServico;
@@ -13,14 +15,18 @@ public class OrdemDeServicoDTO implements Serializable {
 
 	private Integer id;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date dataAbertura;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime dataAbertura;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date dataFechamento;
-	private Prioridade prioridade;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime dataFechamento;
+
+	private Integer prioridade;
+
+	@NotEmpty(message = "O campo ID DO CLIENTE é mandatório")
 	private String observacoes;
-	private Status status;
+
+	private Integer status;
 	private Integer tecnico;
 	private Integer cliente;
 
@@ -33,11 +39,11 @@ public class OrdemDeServicoDTO implements Serializable {
 		this.id = obj.getId();
 		this.dataAbertura = obj.getDataAbertura();
 		this.dataFechamento = obj.getDataFechamento();
-		this.prioridade = obj.getPrioridade();
+		this.prioridade = obj.getPrioridade().getCodigo();
 		this.observacoes = obj.getObservacoes();
-		this.status = obj.getStatus();
 		this.tecnico = obj.getTecnico().getId();
 		this.cliente = obj.getCliente().getId();
+		this.status = obj.getStatus().getCodigo();
 	}
 
 	public Integer getId() {
@@ -48,28 +54,28 @@ public class OrdemDeServicoDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDataAbertura() {
+	public LocalDateTime getDataAbertura() {
 		return dataAbertura;
 	}
 
-	public void setDataAbertura(Date dataAbertura) {
+	public void setDataAbertura(LocalDateTime dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 
-	public Date getDataFechamento() {
+	public LocalDateTime getDataFechamento() {
 		return dataFechamento;
 	}
 
-	public void setDataFechamento(Date dataFechamento) {
+	public void setDataFechamento(LocalDateTime dataFechamento) {
 		this.dataFechamento = dataFechamento;
 	}
 
 	public Prioridade getPrioridade() {
-		return prioridade;
+		return Prioridade.toEnum(this.prioridade);
 	}
 
 	public void setPrioridade(Prioridade prioridade) {
-		this.prioridade = prioridade;
+		this.prioridade = prioridade.getCodigo();
 	}
 
 	public String getObservacoes() {
@@ -81,11 +87,11 @@ public class OrdemDeServicoDTO implements Serializable {
 	}
 
 	public Status getStatus() {
-		return status;
+		return Status.toEnum(this.status);
 	}
 
 	public void setStatus(Status status) {
-		this.status = status;
+		this.status = status.getCodigo();
 	}
 
 	public Integer getTecnico() {

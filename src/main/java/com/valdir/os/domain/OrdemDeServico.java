@@ -1,7 +1,7 @@
 package com.valdir.os.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,12 +22,13 @@ public class OrdemDeServico implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private Date dataAbertura;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private Date dataFechamento;
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime dataAbertura;
 
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime dataFechamento;
+
 	private Integer prioridade;
 	private String observacoes;
 	private Integer status;
@@ -44,19 +45,21 @@ public class OrdemDeServico implements Serializable {
 
 	public OrdemDeServico() {
 		super();
+		this.setPrioridade(Prioridade.BAIXA);
+		this.setStatus(Status.ABERTO);
+		this.dataAbertura = LocalDateTime.now();
 	}
 
-	public OrdemDeServico(Integer id, Date dataAbertura, Date dataFechamento, Prioridade prioridade, String observacoes,
-			Status status, Tecnico tecnico, Cliente cliente) {
+	public OrdemDeServico(Integer id, String observacoes, Tecnico tecnico, Cliente cliente) {
 		super();
 		this.id = id;
-		this.dataAbertura = dataAbertura;
-		this.dataFechamento = dataFechamento;
-		this.prioridade = prioridade.getCodigo();
 		this.observacoes = observacoes;
-		this.status = status.getCodigo();
 		this.tecnico = tecnico;
 		this.cliente = cliente;
+
+		this.setPrioridade(Prioridade.BAIXA);
+		this.setStatus(Status.ABERTO);
+		this.dataAbertura = LocalDateTime.now();
 	}
 
 	public Integer getId() {
@@ -67,19 +70,19 @@ public class OrdemDeServico implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDataAbertura() {
+	public LocalDateTime getDataAbertura() {
 		return dataAbertura;
 	}
 
-	public void setDataAbertura(Date dataAbertura) {
+	public void setDataAbertura(LocalDateTime dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 
-	public Date getDataFechamento() {
+	public LocalDateTime getDataFechamento() {
 		return dataFechamento;
 	}
 
-	public void setDataFechamento(Date dataFechamento) {
+	public void setDataFechamento(LocalDateTime dataFechamento) {
 		this.dataFechamento = dataFechamento;
 	}
 

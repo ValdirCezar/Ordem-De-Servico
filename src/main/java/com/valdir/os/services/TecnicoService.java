@@ -40,9 +40,9 @@ public class TecnicoService {
 	 * Create
 	 */
 	public TecnicoDTO create(TecnicoDTO obj) {
-		if (findByCpf(obj) != null)
+		if (findByCpf(obj).getClass().equals(Tecnico.class))
 			throw new DataIntegratyViolationException("CPF já cadastrado na base de dados!");
-
+		
 		Tecnico tecnico = new Tecnico(null, obj.getNome(), obj.getCpf());
 		obj.getPerfis().forEach(x -> tecnico.addPerfil(x));
 		return new TecnicoDTO(repository.save(tecnico));

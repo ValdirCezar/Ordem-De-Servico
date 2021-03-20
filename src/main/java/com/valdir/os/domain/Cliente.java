@@ -22,8 +22,7 @@ public class Cliente implements Serializable {
 
 	@Column(unique = true)
 	private String cpf;
-
-	@Column(unique = true)
+	
 	private String telefone;
 
 	@OneToMany(mappedBy = "tecnico")
