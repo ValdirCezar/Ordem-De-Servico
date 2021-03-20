@@ -17,55 +17,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.valdir.os.domain.dtos.TecnicoDTO;
-import com.valdir.os.services.TecnicoService;
+import com.valdir.os.domain.dtos.OrdemDeServicoDTO;
+import com.valdir.os.services.OSService;
 
 @RestController
-@RequestMapping(value = "/tecnicos")
-public class TecnicoResource {
+@RequestMapping(value = "/os")
+public class OSResource {
 
 	@Autowired
-	private TecnicoService service;
- 
+	private OSService service;
+
+	;
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id) {
-		return ResponseEntity.ok().body(new TecnicoDTO(service.findById(id)));
+	public ResponseEntity<OrdemDeServicoDTO> findById(@PathVariable Integer id) {
+		return ResponseEntity.ok().body(new OrdemDeServicoDTO(service.findById(id)));
 	}
 
 	@GetMapping()
-	public ResponseEntity<List<TecnicoDTO>> findAll() {
-		List<TecnicoDTO> list = service.findAll().stream().map(x -> new TecnicoDTO(x)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<OrdemDeServicoDTO>> findAll() {
+		List<OrdemDeServicoDTO> listDTO = service.findAll().stream().map(x -> new OrdemDeServicoDTO(x))
+				.collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
-	
-	@PostMapping()
-	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO obj) {
-		obj = service.create(obj);
+
+	@PostMapping
+	public ResponseEntity<OrdemDeServicoDTO> create(@Valid @RequestBody OrdemDeServicoDTO obj) {
+		obj = new OrdemDeServicoDTO(service.create(obj));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<TecnicoDTO> update(@Valid @RequestBody TecnicoDTO obj, @PathVariable Integer id) {
-		obj = new TecnicoDTO(service.update(obj, id));
+	public ResponseEntity<OrdemDeServicoDTO> update(@Valid @RequestBody OrdemDeServicoDTO obj, @PathVariable Integer id) {
+		obj = new OrdemDeServicoDTO(service.update(obj, id));
 		return ResponseEntity.ok().build();
 	}
-
+	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
